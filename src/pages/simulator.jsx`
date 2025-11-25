@@ -1,0 +1,49 @@
+import Header from '../components/Header';
+import { useState } from 'react';
+
+export default function Simulator() {
+  const [trades, setTrades] = useState([]);
+  const [symbol, setSymbol] = useState('');
+  const [direction, setDirection] = useState('buy');
+
+  const openTrade = () => {
+    const newTrade = {
+      symbol,
+      direction,
+      time: new Date().toLocaleTimeString()
+    };
+    setTrades([newTrade, ...trades]);
+    setSymbol('');
+  };
+
+  return (
+    <main style={{ padding: '2rem', background: '#0d1117', color: '#fff' }}>
+      <Header />
+      <h2>🎮 محاكي التداول</h2>
+      <div style={{ marginTop: '1rem' }}>
+        <input
+          type="text"
+          placeholder="أدخل الرمز (مثل BTC/USD)"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value)}
+        />
+        <select value={direction} onChange={(e) => setDirection(e.target.value)}>
+          <option value="buy">شراء</option>
+          <option value="sell">بيع</option>
+        </select>
+        <button onClick={openTrade}>فتح صفقة وهمية</button>
+      </div>
+
+      <div style={{ marginTop: '2rem' }}>
+        <h3>📋 صفقاتك التجريبية</h3>
+        <ul>
+          {trades.map((t, i) => (
+            <li key={i}>
+              {t.symbol} — {t.direction === 'buy' ? '🟢 شراء' : '🔴 بيع'} @ {t.time}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </main>
+  );
+}
