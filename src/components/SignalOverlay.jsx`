@@ -1,0 +1,16 @@
+import { getSignals } from '../modules/signalEngine';
+
+export default function SignalOverlay() {
+  const signals = getSignals();
+
+  return (
+    <div className="signal-overlay">
+      <h2>📈 توصيات لحظية</h2>
+      {signals.map((s, i) => (
+        <div key={i}>
+          {s.symbol} — {s.type === 'buy' ? '🟢 شراء' : '🔴 بيع'} ({s.reason})
+        </div>
+      ))}
+    </div>
+  );
+}
